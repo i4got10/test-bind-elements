@@ -1,61 +1,62 @@
 body {
-	font-family: sans-serif;
-	padding: 0;
-	margin: 0;
+  font-family: sans-serif;
+  padding: 0;
+  margin: 0;
 }
 
 .page {
-	height: 2000px;
-	background: #dddddd;
-	position: relative;
+  height: 2000px;
+  background: #dddddd;
+  position: relative;
 }
 
 .outer1 {
-	height: 300px;
-	border: 1px solid red;
-	background: #cccccc;
-	overflow: scroll;
-	padding: 100px;
-	margin: 100px 0;
-	
-	width: 500px
+  height: 300px;
+  border: 1px solid red;
+  background: #cccccc;
+  overflow: scroll;
+  padding: 100px;
+  margin: 100px 0;
+
+  width: 500px;
 }
 
 .inner1 {
-	height: 1000px;
+  height: 1000px;
 }
 
 .box {
-	display: flex;
-	width: 100px;
-	height: 100px;
-	background: rgba(0, 0, 0, 0.05);
-	justify-content: center;
-	align-items: center;
-	font-size: 16px;
-	border: 1px solid rgba(0, 0, 0, 0.1);
+  display: flex;
+  width: 100px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.05);
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .box-absolute {
-	position: absolute;
-	left: 50px;
-	top: 50px;
+  position: absolute;
+  left: 50px;
+  top: 50px;
 }
 
 .box-fixed {
-	position: fixed;
-	right: 50px;
-	top: 50px;
+  position: fixed;
+  right: 50px;
+  top: 50px;
 }
 
 .box-sticky {
-	position: sticky;
-	top: 20px;
-	margin-left: 250px;
+  position: sticky;
+  top: 20px;
+  margin-left: 250px;
 }
 
-.box-scroll {}
+.box-scroll {
+}
 
 #btn1 {
-	padding: 16px;
+  padding: 16px;
 }
