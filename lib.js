@@ -49,8 +49,6 @@ function bindElements(selectorA, selectorB) {
   }
 
   function drawLineBetweenElements(canvas, ctx, selectorA, selectorB) {
-    clearCanvas(canvas, ctx);
-
     const pointA = getElementCenter(selectorA);
     const pointB = getElementCenter(selectorB);
 
@@ -96,6 +94,7 @@ function bindElements(selectorA, selectorB) {
       document.addEventListener(
         'scroll',
         withRaf(() => {
+          clearCanvas(canvas, ctx);
           drawLineBetweenElements(canvas, ctx, selectorA, selectorB);
         }),
         true
