@@ -1,5 +1,5 @@
-function wrapper(selectorA, selectorB) {
-  function initCanvas() {
+function bindElements(selectorA, selectorB) {
+  function createCanvasElement() {
     const canvas = document.createElement('canvas');
 
     canvas.width = window.innerWidth;
@@ -16,7 +16,7 @@ function wrapper(selectorA, selectorB) {
     return { canvas, ctx };
   }
 
-  function getElemCenter(selector) {
+  function getElementCenter(selector) {
     const el = document.querySelectorAll(selector)[0];
     if (!el) {
       return;
@@ -44,31 +44,32 @@ function wrapper(selectorA, selectorB) {
     ctx.stroke();
   }
 
-  function clear(canvas, ctx) {
+  function clearCanvas(canvas, ctx) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
   function drawLineBetweenElements(canvas, ctx, selectorA, selectorB) {
-    clear(canvas, ctx);
+    clearCanvas(canvas, ctx);
 
-    const pointA = getElemCenter(selectorA);
-    const pointB = getElemCenter(selectorB);
+    const pointA = getElementCenter(selectorA);
+    const pointB = getElementCenter(selectorB);
 
     if (pointA && pointB) {
       canvasDrawLine(ctx, pointA, pointB);
     }
   }
 
-  function bindElements(selectorA, selectorB) {
+  function run(selectorA, selectorB) {
     let canvas;
     let ctx;
+    let rafID;
 
-    const buildCanvas = () => {
+    const addCanvasToBody = () => {
       if (canvas) {
         document.body.removeChild(canvas);
       }
 
-      const res = initCanvas();
+      const res = createCanvasElement();
 
       canvas = res.canvas;
       ctx = res.ctx;
@@ -77,10 +78,6 @@ function wrapper(selectorA, selectorB) {
 
       drawLineBetweenElements(canvas, ctx, selectorA, selectorB);
     };
-
-    buildCanvas();
-
-    let rafID;
 
     const withRaf = (fn) => {
       return (...args) => {
@@ -95,35 +92,46 @@ function wrapper(selectorA, selectorB) {
       };
     };
 
-    document.addEventListener(
-      'scroll',
-      withRaf(() => {
-        drawLineBetweenElements(canvas, ctx, selectorA, selectorB);
-      }),
-      true
-    );
+    const listenScroll = () => {
+      document.addEventListener(
+        'scroll',
+        withRaf(() => {
+          drawLineBetweenElements(canvas, ctx, selectorA, selectorB);
+        }),
+        true
+      );
+    };
 
-    window.addEventListener(
-      'resize',
-      withRaf(() => {
-        buildCanvas();
-      })
-    );
+    const listenResize = () => {
+      window.addEventListener(
+        'resize',
+        withRaf(() => {
+          addCanvasToBody();
+        })
+      );
+    };
 
-    // TODO better check mutationsList
-    let skipNext = false;
-    const observer = new MutationObserver((mutationsList, observer) => {
-      if (!skipNext) {
-        skipNext = true;
-        buildCanvas();
-      } else {
-        skipNext = false;
-      }
-    });
+    const listenDOMMutations = () => {
+      // TODO better check mutationsList
+      let skipNext = false;
+      const observer = new MutationObserver((mutationsList, observer) => {
+        if (!skipNext) {
+          skipNext = true;
+          addCanvasToBody();
+        } else {
+          skipNext = false;
+        }
+      });
 
-    observer.observe(document.body, { attributes: true, childList: true, subtree: true });
-    // observer.disconnect();
+      observer.observe(document.body, { attributes: true, childList: true, subtree: true });
+      // observer.disconnect();
+    };
+
+    addCanvasToBody();
+    listenScroll();
+    listenResize();
+    listenDOMMutations();
   }
 
-  bindElements(selectorA, selectorB);
+  run(selectorA, selectorB);
 }
