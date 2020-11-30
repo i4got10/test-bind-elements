@@ -2,7 +2,6 @@ function wrapper(selectorA, selectorB) {
   function initCanvas() {
     const canvas = document.createElement('canvas');
 
-    // TODO track dom mutations
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
@@ -22,10 +21,10 @@ function wrapper(selectorA, selectorB) {
     if (!el) {
       return;
     }
-
+    
     const rect = el.getBoundingClientRect();
-    const y = rect.top + el.offsetWidth / 2;
-    const x = rect.left + el.offsetHeight / 2;
+    const y = rect.top + el.offsetHeight / 2;
+    const x = rect.left + el.offsetWidth / 2;
 
     // const x = el.offsetLeft + el.offsetWidth / 2;
     // const y = el.offsetTop + el.offsetHeight / 2;
@@ -111,7 +110,7 @@ function wrapper(selectorA, selectorB) {
       })
     );
 
-    // TODO
+    // TODO better check mutationsList
     let skipNext = false
     const observer = new MutationObserver((mutationsList, observer) => {
     	if (!skipNext) {
@@ -132,9 +131,9 @@ function wrapper(selectorA, selectorB) {
 wrapper('.box-absolute', '.box-fixed');
 wrapper('.box-scroll', '.box-fixed');
 wrapper('.box-sticky', '.box-absolute');
+wrapper('.box-sticky', '.box-inline');
 
-// TODO
-// 1) MutationObserver
+// wrapper('.news__tab-text', '.input__voice-search');
 
 document.querySelectorAll('#btn1')[0].addEventListener('click', () => {
   const div = document.createElement('div');

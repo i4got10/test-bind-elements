@@ -57,6 +57,10 @@ body {
 .box-scroll {
 }
 
+.box-inline {
+  display: inline;
+}
+
 #btn1 {
   padding: 16px;
 }
