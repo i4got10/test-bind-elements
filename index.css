@@ -50,6 +50,12 @@ body {
 
 .box-sticky {
 	position: sticky;
+	top: 20px;
+	margin-left: 250px;
 }
 
 .box-scroll {}
+
+#btn1 {
+	padding: 16px;
+}
